@@ -8,6 +8,7 @@ load_dotenv()
 class Config():
     DEBUG = False
     TESTING = False
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 class DevelopmentConfig(Config):
@@ -37,6 +38,18 @@ class DevelopmentConfig(Config):
     LIKES_COUNT = 500
 
 
+    MAIL_SERVER = os.environ['MAIL_SERVER']
+    MAIL_USERNAME = os.environ['MAIL_USERNAME']
+    MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
+    MAIL_PORT = 2525
+    EMAIL_TIMEOUT = 30
+    EMAIL_USE_TLS = True 
+    EMAIL_USE_SSL = False 
+
+    # MAIL_SERVER = 'sandbox.smtp.mailtrap.io'
+    # MAIL_USERNAME = 'f73c57ad7e6649'
+    # MAIL_PASSWORD = 'b8bd177a9f4af9'
+
     DB_USERNAME = os.environ.get('DB_USERNAME')
     DB_PASSWORD = os.environ.get('DB_PASSWORD')
     DB_NAME = os.environ.get('DB_NAME')
@@ -44,6 +57,9 @@ class DevelopmentConfig(Config):
     #postgreSQL conf
     SQLALCHEMY_DATABASE_URI = f'postgresql://{DB_USERNAME}:{DB_PASSWORD}@localhost/{DB_NAME}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+    LOGIN_MESSAGE = "Login Required"
 
 
 

@@ -1,8 +1,11 @@
-from blog import db
+from blog import db, conf
 from sqlalchemy.sql import func
+from flask_login import UserMixin
+from itsdangerous.url_safe import URLSafeSerializer
 
 
-class User(db.Model):
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     join_date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     first_name = db.Column(db.String(30), nullable=False, unique=False)
@@ -14,6 +17,20 @@ class User(db.Model):
     articles = db.relationship("Article", backref='user', lazy=True)
     stripe_customer = db.relationship("StripeCustomer", backref='user')
     likes = db.relationship('Like', backref='user', passive_deletes=True)
+
+    def get_reset_pwd_token(self) -> str:
+        sign = URLSafeSerializer(conf.SECRET_KEY, salt="PasswordReset") #type:ignore
+        return sign.dumps({ 'user_id' : self.id })
+    
+    @staticmethod
+    def verify_reset_pwd_token(token : str) -> object | None :
+        sign = URLSafeSerializer(conf.SECRET_KEY, salt="PasswordReset") #type:ignore
+        try:
+            user_id = sign.loads(token, max_age=3600)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
+
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

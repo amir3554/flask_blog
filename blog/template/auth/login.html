@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% from 'partials/_macros.jinja' import form_macro %}
+{% block content %}
+<!-- main container -->
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <form method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">
+                        {{ legend }}
+                    </legend>
+                    <div class="row">
+                        <div class="col">
+                        {{ form_macro(form.email) }}
+                        {{ form_macro(form.password) }}
+                        </div>
+                    <div>
+                        {{ form.remember.label(class="form-check-label") }}
+                        {{ form.remember(class="form-check-input") }}
+                    </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn mainButton") }}
+                </div>
+            </form>
+            <div class="border-top pt-3 col-md-6">
+                <small class="text-muted">
+                    Dont have an account?
+                    <a class="ml-2" href="{{ url_for('AuthRoute.user_register') }}">
+                        Register
+                    </a>
+                </small>
+                <br>
+                <small class="text-muted col-mt-3">
+                    Forgot Password?
+                    <a class="ml-2" href="{{ url_for('AuthRoute.reset_request') }}">
+                        Reset Password
+                    </a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

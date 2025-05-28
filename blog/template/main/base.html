@@ -23,6 +23,7 @@
 
     {% include "partials/navbar.html" %}
     {% include "partials/flash_message.html" %}
+    {% include 'partials/modal_article.html' %}
 
     <main>
     
@@ -38,5 +39,12 @@
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
     <!-- fontawesome icon -->
     <script src="https://kit.fontawesome.com/fd1352f6d1.js" crossorigin="anonymous"></script>
+
+    <!-- my javascript -->
+     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script src="{{ url_for('static', filename='js/article_like.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/ckeditor_conf.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/image_preview.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/modal_article.js') }}"> </script>
 </body>
 </html>

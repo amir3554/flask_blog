@@ -43,6 +43,11 @@ ArticleRoute = Blueprint("ArticleRoute", __name__, url_prefix='/article')
 
 
 ArticleRoute.route('/add', methods=['POST', 'GET'])(MainController.article_add)
+ArticleRoute.route('/<int:id>/update', methods=["GET","POST"])(MainController.article_update)
+ArticleRoute.route('/list', methods=["GET"])(MainController.articles_list)
+ArticleRoute.route('/<int:id>/show', methods=['GET'])(MainController.article)
+ArticleRoute.route('/<int:id>/like', methods=["PUT"])(MainController.article_like)
+ArticleRoute.route('/<int:id>/delete', methods=["GET","POST"])(MainController.article_delete)
 
 
 

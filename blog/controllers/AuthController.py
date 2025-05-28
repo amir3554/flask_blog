@@ -1,6 +1,6 @@
 from flask import render_template, request
 from blog.forms.AuthForms import RegisterForm, LoginForm, RequestResetForm, ResetPasswordForm
-from blog.models.Models import User
+from blog.models.AuthModels import User
 from blog import db, bcrypt
 from blog.utils.AuthUtils import send_reset_pwd_email
 from flask import redirect, url_for, render_template, flash

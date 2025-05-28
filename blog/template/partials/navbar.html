@@ -28,7 +28,14 @@
                                         إضافة مقالة
                                     </a>
                                 </li>
-                                <li><a class="dropdown-item" href="#">لائحة المقالات</a></li>
+                                {% if current_user.is_admin %}
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ url_for('ArticleRoute.articles_list') }}">
+                                        لائحة المقالات
+                                    </a>
+                                </li>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>

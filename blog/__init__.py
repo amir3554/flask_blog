@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from blog.config import DevelopmentConfig, ProductionConfig
 from datetime import datetime
+from flask_ckeditor import CKEditor
 
 """ Development Mode """
 conf = DevelopmentConfig()
@@ -29,8 +30,10 @@ login_manager = LoginManager()
 
 mail = Mail()
 
+ck_editor = CKEditor()
 
-login_manager.login_view = "auth_controller.user_login" #type:ignore
+
+login_manager.login_view = "AuthRoute.user_login" #type:ignore
 login_manager.login_message = conf.LOGIN_MESSAGE
 login_manager.login_message_category = "warning"
 
@@ -63,6 +66,7 @@ def register_extention(app : Flask) -> None:
     flask_seeder.init_app(app, db)
     login_manager.init_app(app)
     mail.init_app(app)
+    ck_editor.init_app(app)
     return None
 
 
@@ -76,8 +80,8 @@ def register_blueprint(app : Flask) -> None:
 
 
 
-from blog.models.Models import Article, User, StripeCustomer, Like
-
+from blog.models.Models import Article, Like
+from blog.models.AuthModels import  User, StripeCustomer
 
 def populate_database() -> None:
     #app.before_request(populate_database)
@@ -107,7 +111,7 @@ def register_error_handler(app):
             title="Not Found",
             ),error_code
     
-    for errcode in [404]:
+    for errcode in [403, 404, 405]:
         app.errorhandler(errcode)(render_error)
     
     return None

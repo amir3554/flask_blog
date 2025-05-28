@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from blog.models import Models
+from blog.models import Models, AuthModels
 
 
 class LoginForm(FlaskForm):
@@ -22,11 +22,11 @@ class RegisterForm(FlaskForm):
     submit = SubmitField()
 
     def validate_email(self, email_field):
-        if Models.User.query.filter_by(email=email_field.data).first():
+        if AuthModels.User.query.filter_by(email=email_field.data).first():
             raise ValidationError("The email is already exists, reset password if needed.")
 
     def validate_username(self, username_field):
-        if Models.User.query.filter_by(username=username_field.data).first():
+        if AuthModels.User.query.filter_by(username=username_field.data).first():
             raise ValidationError("The username is already been used.")
 
 
@@ -37,7 +37,7 @@ class RequestResetForm(FlaskForm):
 
 
     def validate_email(self, email_field):
-        user = Models.User.query.filter_by(email=email_field.data).first()
+        user = AuthModels.User.query.filter_by(email=email_field.data).first()
         if user is None:
             raise ValidationError("No Email Exsists")
 

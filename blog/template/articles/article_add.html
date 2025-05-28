@@ -20,7 +20,9 @@
                                     <!-- Image    -->
                                     <div class="form-group mt-4">
                                         {{ form.image.label(class='') }}
-                                        {{ form.image(class="form-control form-control-lg") }}
+                                        {{ form.image
+                                            (class="form-control form-control-lg",
+                                            onchange="imagePreview(event)") }}
                                         {% if form.image.errors %}
                                         <ul class="error">
                                             {% for error in form.image.errors %}
@@ -30,6 +32,19 @@
                                         {% endif %}
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <img    class="ImgPreviewClass"
+                                    {% if form.image.data %}
+                                    src="{{ url_for('static', filename='media/images/' + form.image.data) }}"
+                                    
+                                    
+                                    
+                                    {% else %}
+                                    src="{{ url_for('static', filename='media/images/default.png') }}"
+                                    {% endif %}    
+                                    alt="Article image">
+                                </div>
+
                             </div>
                         </fieldset>
                         <!-- Content    -->
@@ -39,6 +54,15 @@
                             {{ form.submit(class="btn mainButton") }}
                         </div>
                     </form>
+                    {{ ckeditor.load() }}
+                    {{ ckeditor.config(name="content",
+                            height='300',
+                            contentsLangDerection='lrt',
+                            contentsLanguage='ar',
+                            language='ar',
+                            defaultLanguage='ar'
+                        )
+                    }}
                 </div>
             </div>
         </div>

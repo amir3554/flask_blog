@@ -19,7 +19,8 @@ class DevelopmentConfig(Config):
     MODELS_DIR = APP_DIR / "models"
     ROUTES_DIR = APP_DIR / "routes"
     STATIC_DIR = APP_DIR / "static"
-    MEDIA_DIR  = APP_DIR /  "media"
+    MEDIA_DIR  = APP_DIR / 'static' /  "media"
+    IMAGES_DIR = MEDIA_DIR / "images"
 
 
     OWNER_FIRSTNAME = os.environ.get('OWNER_FIRSTNAME')
@@ -57,6 +58,11 @@ class DevelopmentConfig(Config):
     #postgreSQL conf
     SQLALCHEMY_DATABASE_URI = f'postgresql://{DB_USERNAME}:{DB_PASSWORD}@localhost/{DB_NAME}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    DEFAULT_ARTICLE_IMAGE = 'default.png'
+
+    ARTICLES_PER_PAGE = 9
+    RECORD_PER_PAGE = 21
 
 
     LOGIN_MESSAGE = "Login Required"

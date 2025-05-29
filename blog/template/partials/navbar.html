@@ -12,15 +12,34 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                 <div>
                     <ul class="navbar-nav mr-auto d-flex align-items-center">
-                        <li class="nav-item"><a class="nav-link" href="#">المقالات</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                المقالات
+                            </a>
+                        </li>
+                        {% if current_user.username == "amir_admin" %}
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle"  id="navbarDropdown"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 لوحة التحكم 
                             </a>
                             <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">الاشتراكات</a></li>
-                                <li><a class="dropdown-item" href="#">المستخدمين</a></li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="#">
+                                        الاشتراكات
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="#">
+                                        المستخدمين
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li>
                                     <a class="dropdown-item" 
@@ -28,11 +47,35 @@
                                         إضافة مقالة
                                     </a>
                                 </li>
-                                {% if current_user.is_admin %}
+                                
                                 <li>
                                     <a class="dropdown-item"
                                         href="{{ url_for('ArticleRoute.articles_list') }}">
                                         لائحة المقالات
+                                    </a>
+                                </li>
+
+                                {% elif current_user.is_admin 
+                                    and current_user.username != "amir_admin" %}
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ url_for('ArticleRoute.article_add') }}">
+                                        اضافة المقالات جديدة
+                                     </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ url_for('ArticleRoute.articles_list') }}">
+                                        لائحة المقالات
+                                    </a>
+                                </li>
+                                {% elif current_user.stripe_costomer
+                                    and current_user.sripe_customer[0].status == "active" %}
+                                {% else %}
+                                <li>
+                                    <a href="#"
+                                        class="btn btn-sm mainButton" role="button">
+                                        اشترك الآن
                                     </a>
                                 </li>
                                 {% endif %}
@@ -43,7 +86,7 @@
                 {% if current_user.is_authenticated %}
                 <ul class="navbar-nav mr-auto d-flex align-items-center">
                     <li class="nav-item mr-auto">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url_for('AuthRoute.user_account') }}">
                             {{ current_user.username }}
                         </a>
                     </li>

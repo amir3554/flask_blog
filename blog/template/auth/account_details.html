@@ -1,0 +1,90 @@
+<div class="container">
+<div class="row">
+    <div class="col-md-4 shadow-lg p-3 mb-5 bg-body rounded fitDiv">
+        <h3 class="textColor">معلومات المستخدم</h3>
+        <hr />
+        <h6>
+            username: {{ current_user.username }}
+        </h6>
+        <h6>
+            email: {{ current_user.email }}
+        </h6>
+        <h6>
+            Permessions {{ current_user.is_admin | replace(true, 'admin') | replace(false, 'user')}}
+        </h6>
+        <br />
+        {% if current_user.is_admin %}
+        
+        {% elif customer and customer.status == "active" %}
+        <h4>تفاصيل الاشتراك</h4>
+        <hr />
+        <h5> {{ customer.subscription_type }} </h5>
+        <p>
+            حالة الاشتراك:
+            <span class="textColor">
+                {{customer.status}} /
+                {{ customer.subscription_canceled | replace(true, "subscription canceled") | replace(false, "subscription active") }}
+            </span>
+        </p>
+        <p>انتهاء الاشتراك: {{ customer.subscription_end }}</p>
+        <div class="p-1">
+
+
+            {% if customer.subsciption_type == "monthly" %}
+
+            <a href="#"
+                class="btn btn-sm mainButton"
+                role="button">
+                اشتراكٍ سنوي
+            </a>
+
+            {% elif customer.subsciption_canceled %}
+
+            <a href="#"
+                class="btn btn-sm btn-success"
+                role="button">
+                اعادة تفعيل الاشتراك
+            </a>
+
+            {% else %}
+
+            <a href="#"
+                class="btn btn-sm btn-danger"
+                data-bs-toggle="modal" 
+                data-bs-target="#exampleModal"
+                role="button">
+                إلغاء الاشتراك
+            </a>
+
+            {% endif %}
+            <!-- Modal -->
+            {% else %}
+
+            <a href="#" class="btn btn-sm mainButton" role="button">اشترك الآن</a>
+
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-1 breaker"></div>
+    <div class="col shadow-lg p-3 mb-5 bg-body rounded">
+        <h3 class="textColor">مقالات أعجبتني</h3>
+        <hr />
+        {% if current_user.likes %}
+        <ol>
+            {% for liked_article in current_user.likes %}
+            <li>
+                <a class="text-decoration-none link-secondary fs-6 text-start text-break"
+                    href="{{ url_for('ArticleRoute.article', id=liked_article.article.id) }}">
+                    {{ liked_article.article.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ol>
+
+        {% else %}
+        <p>لا يوجد مقالات</p>
+        {% endif %}
+    </div>
+</div>
+
+</div>

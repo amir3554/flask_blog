@@ -22,6 +22,7 @@ AutherRoute = Blueprint("AuthRoute", __name__, url_prefix='/auth')
 
 AutherRoute.route('/login', methods=['POST', 'GET'])(AuthController.user_login)
 AutherRoute.route('/register', methods=['POST', 'GET'])(AuthController.user_register)
+AutherRoute.route('/account', methods=['GET'])(AuthController.user_account)
 AutherRoute.route('/logout', methods=['GET'])(AuthController.user_logout)
 AutherRoute.route('/reset_password', methods=['POST', 'GET'])(AuthController.reset_request)
 AutherRoute.route('/reset_password/<token>', methods=['POST', 'GET'])(AuthController.reset_password)

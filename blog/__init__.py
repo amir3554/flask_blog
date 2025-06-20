@@ -8,6 +8,11 @@ from flask_mail import Mail
 from blog.config import DevelopmentConfig, ProductionConfig
 from datetime import datetime
 from flask_ckeditor import CKEditor
+import stripe
+
+# for dealing js scripts as modules not text
+import mimetypes
+mimetypes.add_type('application/javascript', '.js')
 
 """ Development Mode """
 conf = DevelopmentConfig()
@@ -32,6 +37,8 @@ mail = Mail()
 
 ck_editor = CKEditor()
 
+stripe.api_key = conf.STRIPE_SECRET_KEY
+stripe.api_version = conf.STRIPE_API_VERSION
 
 login_manager.login_view = "AuthRoute.user_login" #type:ignore
 login_manager.login_message = conf.LOGIN_MESSAGE
@@ -81,7 +88,7 @@ def register_blueprint(app : Flask) -> None:
 
 
 from blog.models.Models import Article, Like
-from blog.models.AuthModels import  User, StripeCustomer
+from blog.models.AuthModels import  User
 
 def populate_database() -> None:
     #app.before_request(populate_database)

@@ -4,11 +4,24 @@
 <div class="container-fluid">
     <div class="container">
         <div class="alert alert-success m-5" role="alert">
-            <h4 class="alert-heading display-1 fw-bold">شكرا لإشتراكك!</h4>
-            <p>قمت بالإشتراك بشكل ناجح، يمكنك تعديل الاشتراك من <a href="#">صفحتك الشخصية</a>.</p>
-            <p>يمكنك الآن الوصول إلى محتوى المقالات كاملة والتفاعل معها.</p>
+            <h4 class="alert-heading display-1 fw-bold">
+                شكرا لإشتراكك!
+            </h4>
+            <p>
+                قمت بالإشتراك بشكل ناجح، يمكنك تعديل الاشتراك من 
+                <a href="url_for('AuthRoute.user_account')">
+                    صفحتك الشخصية
+                </a>
+                .
+            </p>
+            <p>
+                يمكنك الآن الوصول إلى محتوى المقالات كاملة والتفاعل معها.
+            </p>
             <hr />
-            <a href="#" class="btn btn-outline-success mb-0">اذهب للصفحة الرئيسية</a>
+            <a href="url_for('MainRoute.home')"
+                class="btn btn-outline-success mb-0">
+                اذهب للصفحة الرئيسية
+            </a>
         </div>
     </div>
 </div>

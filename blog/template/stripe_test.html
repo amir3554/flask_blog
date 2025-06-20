@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>اختبار Stripe Element</title>
+  <!-- حمّل مكتبة Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    /* للتجربة فقط: اجعل العنصر مرئيًا بحواف خفيفة */
+    #card-element {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+      max-width: 400px;
+      margin-top: 20px;
+    }
+    #card-errors {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>نموذج الاختبار</h2>
+  <form id="payment-form">
+    <!-- هنا سيظهر حقل البطاقة -->
+    <div id="card-element"></div>
+    <!-- هذا الحقل لعرض أخطاء الدفع إن وجدت -->
+    <div id="card-errors" role="alert"></div>
+    <button type="submit" style="margin-top: 20px;">ادفع الآن</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // ضع هنا الـ Publishable Key الفعلي (يبدأ بـ pk_)
+      const stripe = Stripe('pk_test_51R9nuzQRHgr09PFmJas3eAjmp1UFcd0jDhsOihprE3v1HMLM1Z6iaBrr697tFeQzJo4wGzZg008YOxQd18KXTocL00Nxle7gCF');
+
+      // جهّز عناصر Stripe
+      const elements = stripe.elements();
+      const style = {
+        base: {
+          color: "#32325d",
+          fontSize: "16px",
+          "::placeholder": {
+            color: "#a0aec0"
+          }
+        }
+      };
+      const card = elements.create("card", { style: style });
+
+      // ركب العنصر ضمن div(id="card-element")
+      card.mount("#card-element");
+
+      // استمع لأخطاء الحقل وعرضها تحت العنصر
+      card.on('change', function(event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = '';
+        }
+      });
+
+      // عند إرسال الفورم يمكنك استخراج الـ PaymentMethod أو إرسالها للسيرفر
+      const form = document.getElementById('payment-form');
+      form.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        stripe.createPaymentMethod({
+          type: 'card',
+          card: card,
+        }).then(function(result) {
+          if (result.error) {
+            // عرض الخطأ
+            document.getElementById('card-errors').textContent = result.error.message;
+          } else {
+            // إذا نجح: أرسل result.paymentMethod.id إلى السيرفر
+            console.log("PaymentMethod created:", result.paymentMethod.id);
+            // هنا يمكنك مثلاً إعادة توجيه الـ form أو إرسال AJAX للباكند
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

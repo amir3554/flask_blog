@@ -1,5 +1,5 @@
 from flask import Blueprint
-from blog.controllers import MainController, AuthController
+from blog.controllers import MainController, AuthController, SubscriptionController
 
 
 
@@ -31,10 +31,15 @@ AutherRoute.route('/reset_password/<token>', methods=['POST', 'GET'])(AuthContro
 
 """For The Subscribe Controller """
 
-SubscribeRoute = Blueprint("SubscribeRoute", __name__, url_prefix='/subscribe')
+SubscribeRoute = Blueprint("SubscriptionRoute", __name__)
 
+SubscribeRoute.route('/test', methods=['GET', 'POST'])(SubscriptionController.strip_test)
 
-
+SubscribeRoute.route('/subscription', methods=['GET'])(SubscriptionController.subscription)
+SubscribeRoute.route('/subscription_create', methods=['GET', "POST"])(SubscriptionController.subscription_create)
+SubscribeRoute.route('/public-key', methods=['GET'])(SubscriptionController.get_publishable_key)
+SubscribeRoute.route('/webhook', methods=['POST'])(SubscriptionController.webhook_received) #type:ignore
+SubscribeRoute.route('/post_price_id', methods=['GET'])(SubscriptionController.post_price_id)
 
 
 

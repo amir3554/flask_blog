@@ -1,0 +1,165 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="center">
+            <div class="col-md-6 col-md-8 col-lg-6 ">
+                <h4>معلومات الدفع</h4>
+                <form id="subscribe-form"
+                    class="payment-form shadow-lg bg-body rounded p-3 m-3"
+                    method="post">
+                    <legend>
+                        تفاصيل الاشتراك
+                        <br/>
+                        <small>{{ sub_description }} الاشتراكات</small>
+                    </legend>
+                    <hr/>
+                    <input type="hidden" id="price_id" value="{{ price_id }}"
+                        class="form-control" readonly>
+                    <div class="form-group">
+                        <label for="user_email">البريد الإلكتروني::</label>
+                        <input type="email" id="user_email" value="{{ current_user.email }}"
+                            class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="stripeCar">رقم البطاقة البنكية</label>
+                        <div id="stripeCard" class="form-control"></div>
+                            {# سيتم حقن عنصر سترايب هنا #}
+
+                        <div class="form-group d-grid gap-2">
+                            <div id="card-element-errors" role="alert"></div>
+                            <button class="btn btn-outline-success classBtn"
+                                    id=""
+                                    data-cls="{{ client_secret }}">
+                                <div class="spinner hidden" id="spinner"></div>
+                                <span id="button-text">ادفع الآن</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="result-message hidden">
+                    <div class="alert alert-success d-flex align-items-center " role="alert">
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div>تمت عملية الدفع بنجاح</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+/* للتجربة فقط: اجعل العنصر مرئيًا بحواف خفيفة */
+#card-element {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    max-width: 400px;
+    margin-top: 20px;
+}
+#card-errors {
+    color: red;
+    margin-top: 10px;
+}
+</style>
+<script>
+
+let displayError = (event) => {
+    let displayError = document.getElementById("card-element-errors");
+    if (event.error) {
+        displayError.textContent = event.error.message;
+        document.querySelector(".classBtn").disabled = true;
+    } else {
+        displayError.textContent = '';
+        document.querySelector(".classBtn").disabled = false;
+    }
+};
+
+let stripeElements = (publicKey) => {
+    const stripe = Stripe(publicKey); //{ locale: 'ar' }
+    document.querySelector(".classBtn").disabled = true;
+    const elements = stripe.elements();
+    let cardElement = elements.create("card");
+    cardElement.mount("#stripeCard");
+    cardElement.on("change", (event) => {
+        displayError(event);
+    });
+    cardElement.on("focus", () => {
+        let el = document.getElementById("stripeCard");
+        el.classList.add("focused")
+    });
+        cardElement.on("blur", () => {
+        let el = document.getElementById("stripeCard");
+        el.classList.add("focused")
+    });
+    return { stripe, cardElement }
+};
+
+let changeLoadingState = (isloading) => {
+    if (isloading) {
+        document.querySelector(".classBtn").disabled = true;
+        document.querySelector("#spinner").classList.remove("hidden");
+        document.querySelector("#button-text").classList.add("hidden");
+    } else {
+        document.querySelector(".classBtn").disabled = false;
+        document.querySelector("#spinner").classList.add("hidden");
+        document.querySelector("#button-text").classList.remove("hidden");
+    }
+}
+
+let orderComplete = (redirect_url, args = "") => {
+    document.querySelector(".classBtn").disabled = true;
+    document.querySelector(".result-message").classList.remove("hidden");
+    document.querySelector(".payment-form").classList.add("hidden");
+
+    setTimeout(() => {
+        window.location.href = redirect_url + args;
+    }, 3000);
+    changeLoadingState(false)
+}
+
+async function getPublicKey() {
+    const { data } = await axios('/public-key');    
+    let { stripe, cardElement } = stripeElements(data.publicKey);
+    return { stripe, cardElement }
+}
+
+const { stripe, cardElement } = getPublicKey()
+
+const button = document.querySelector("#subBtn");
+button.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const emailInput = document.getElementById('user_email');
+
+
+
+    changeLoadingState(true);
+    stripe.confirmCardPayment(
+        button.dataset.cls,
+        {
+            payment_method: {
+                card: cardElement,
+                billing_details: {
+                    email: emailInput.value,
+                },
+            },
+        }
+    ).then((result) => {
+        if (result.error) {
+            changeLoadingState(false);
+            let errorElement = document.getElementById("card-element-errors");
+            errorElement.textContent = result.error.message;
+        } else {
+            orderComplete('/subscription-success?paymentIntentStatus=', result.paymentIntent.status);
+        }
+    });
+});
+
+
+
+
+</script>
+
+{% endblock content %}

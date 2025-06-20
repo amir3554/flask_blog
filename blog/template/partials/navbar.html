@@ -73,7 +73,7 @@
                                     and current_user.sripe_customer[0].status == "active" %}
                                 {% else %}
                                 <li>
-                                    <a href="#"
+                                    <a href="{{ url_for('SubscriptionRoute.subscription') }}"
                                         class="btn btn-sm mainButton" role="button">
                                         اشترك الآن
                                     </a>

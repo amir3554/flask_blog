@@ -39,17 +39,23 @@ class DevelopmentConfig(Config):
     LIKES_COUNT = 500
 
 
-    MAIL_SERVER = os.environ['MAIL_SERVER']
-    MAIL_USERNAME = os.environ['MAIL_USERNAME']
-    MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_PORT = 2525
     EMAIL_TIMEOUT = 30
     EMAIL_USE_TLS = True 
     EMAIL_USE_SSL = False 
+    
+    STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+    STRIPE_API_VERSION = os.environ.get("STRIPE_API_VERSION")
+    STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
 
-    # MAIL_SERVER = 'sandbox.smtp.mailtrap.io'
-    # MAIL_USERNAME = 'f73c57ad7e6649'
-    # MAIL_PASSWORD = 'b8bd177a9f4af9'
+    PRICES = {
+    'MONTHLY_SUBSCRIPTION_ID' : os.environ.get('MONTHLY_SUBSCRIPTION_ID'),
+    'YEARLY_SUBSCRIPTION_ID' : os.environ.get('YEARLY_SUBSCRIPTION_ID')
+    }
 
     DB_USERNAME = os.environ.get('DB_USERNAME')
     DB_PASSWORD = os.environ.get('DB_PASSWORD')

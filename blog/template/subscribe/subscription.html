@@ -11,30 +11,62 @@
                             <h4 class="my-0 fw-normal">اشتراك شهري</h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">$10<small class="text-muted fw-light">/شهريا</small></h1>
+                            <h1 class="card-title pricing-card-title">
+                                $10
+                                <small class="text-muted fw-light">
+                                    /شهريا
+                                </small>
+                            </h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li>اشتراك شهري يتم تجديده تلقائيا</li>
-                                <li>الإطلاع على محتوى وفير</li>
+                                <li>
+                                    اشتراك شهري يتم تجديده تلقائيا
+                                </li>
+                                <li>
+                                    الإطلاع على محتوى وفير
+                                </li>
                             </ul>
-                            <form action="#" method="post">
-                                <button type="submit" id="checkout-button" class="mainButtonWhite w-100 btn btn-lg btn-outline-secondary">اشترك شهريا</button>
-                            </form>
+                            <form action="{{ url_for('SubscriptionRoute.subscription_create') }}" method="post">
+                                <input type="hidden" name="priceId"
+                                    value="{{ pricing.MONTHLY_SUBSCRIPTION_ID }}" />
+
+                                <button type="submit" id="checkout-button"
+                                    class="mainButtonWhite w-100 btn btn-lg btn-outline-secondary">
+                                    اشترك شهريا
+                                </button>
+                            </form><!--checkout-button -->
                         </div>
                     </div>
                 </div>
                 <div class="col rounded shadow-lg mb-4 p-3">
                     <div class="card mb-4 rounded-3 shadow-sm">
                         <div class="card-header py-4">
-                            <h4 class="my-0 fw-normal">اشتراك سنوي</h4>
+                            <h4 class="my-0 fw-normal">
+                                اشتراك سنوي
+                            </h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">$100<small class="text-muted fw-light">/سنويا</small></h1>
+                            <h1 class="card-title pricing-card-title">
+                                $100
+                                <small class="text-muted fw-light">
+                                    /سنويا
+                                </small>
+                            </h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li>وفر 20$ عبر اشتراك سنوي</li>
-                                <li>الإطلاع على محتوى وفير</li>
+                                <li>
+                                    وفر 20$ عبر اشتراك سنوي
+                                </li>
+                                <li>
+                                    الإطلاع على محتوى وفير
+                                </li>
                             </ul>
-                            <form action="#" method="post">
-                                <button type="submit" id="checkout-button" class="mainButtonWhite w-100 btn btn-lg btn-outline-secondary">اشترك سنويا</button>
+                            <form action="{{ url_for('SubscriptionRoute.subscription_create') }}"
+                                method="post">
+                                <input type="hidden" name="priceId"
+                                    value="{{ pricing.YEARLY_SUBSCRIPTION_ID }}" />
+                                <button type="submit" id="checkout-button"
+                                    class="mainButtonWhite w-100 btn btn-lg btn-outline-secondary">
+                                    اشترك سنويا
+                                </button>
                             </form>
                         </div>
                     </div>

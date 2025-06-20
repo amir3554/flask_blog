@@ -60,7 +60,8 @@
             <!-- Modal -->
             {% else %}
 
-            <a href="#" class="btn btn-sm mainButton" role="button">اشترك الآن</a>
+            <a href="{{ url_for('SubscriptionRoute.subscription_create') }}"
+            class="btn btn-sm mainButton" role="button">اشترك الآن</a>
 
             {% endif %}
         </div>

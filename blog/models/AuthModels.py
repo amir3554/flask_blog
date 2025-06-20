@@ -41,19 +41,18 @@ class User(db.Model, UserMixin):
     def __repr__(self) -> str:
         return f"User ('{self.username}' . '{self.email}')"
     
-
-
 class StripeCustomer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    subscription_type = db.Column(db.String(256), nullable=False)
-    status = db.Column(db.String(32), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="RESTRIC"))
-    subscription_id = db.Column(db.String(256), nullable=False)
-    amount = db.Column(db.Integer)
-    subscription_start = db.Column(db.DateTime)
-    subscription_end = db.Column(db.DateTime)
-    subscription_canceled = db.Column(db.Boolean, nullable=True)
+    subscription_type = db.Column(db.String(256))
+    status = db.Column(db.String(32), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="RESTRICT"))
+    customer_id = db.Column(db.String(256), nullable=True)
+    subscription_id = db.Column(db.String(256))
+    amount = db.Column(db.Integer, nullable=True)
+    subscription_start = db.Column(db.DateTime, nullable=True)
+    subscription_end = db.Column(db.DateTime, nullable=True)
+    subscription_canceled = db.Column(db.Boolean, default=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

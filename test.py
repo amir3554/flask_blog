@@ -1,7 +1,8 @@
 import stripe
+import secret_info
 
 # ضع هنا مفتاحك السري
-stripe.api_key = "sk_test_51R9nuzQRHgr09PFm6msj8mMQrsxoxJfzv9xozYdet1w2vhv6ZcQt8W3J14uEqgO6YXiWdq3QvFA5t0HORjgFNuXd00DI2NG3cP"
+stripe.api_key = secret_info.STRIPE_API_KEY
 # اختياري: لتثبيت نسخة API محددة
 stripe.api_version = "2023-08-16"
 

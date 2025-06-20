@@ -1,7 +1,9 @@
 import stripe
 import secret_info
 
-#stripe.api_key = secret_info.STRIPE_API_KEY
+
+
+
 # اختياري: لتثبيت نسخة API محددة
 stripe.api_version = "2023-08-16"
 

@@ -42,14 +42,14 @@
                 
                 {% elif customer and not customer.status == "active" %}
 
-                <a href="{{ url_for('SuscribeRoute.subscription_create') }}"
+                <a href="{{ url_for('SubscriptionRoute.subscription') }}"
                     class="btn mainButtonWhite" role="button">
                     اشترك معنا لتكمل قراءة المقالة
                 </a>
 
                 {% else %}
 
-                <a href="{{ url_for('SuscribeRoute.subscription_create') }}"
+                <a href="{{ url_for('SubscriptionRoute.subscription') }}"
                     class="btn mainButtonWhite" role="button">
                     اشترك معنا لتكمل قراءة المقالة
                 </a>

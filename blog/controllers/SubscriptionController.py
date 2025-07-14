@@ -80,7 +80,7 @@ def subscription_create():
         
     #price_id = post_price_id()
     #if price_id:
-     #   print('price id was posted')
+    #   print('price id was posted')
 
     #try:
     if customer is None:
@@ -99,7 +99,7 @@ def subscription_create():
         db.session.commit()
 
     if customer is not None:
-        #subscription = stripe_subscription_create(customer.customer_id, price_id)
+        subscription = stripe_subscription_create(customer.customer_id, priceId)
         customer.subscription_id = subscription.id
         db.session.commit()
         sub_description = subscription["latest_invoice"]["lines"]["data"][0]["description"]
@@ -129,11 +129,3 @@ def subscription_success():
         flash('an error accurred during payment process, check your profile ', 'warning')
         return redirect(url_for('AuthRoute.user_account'))
     
-
-
-"""
-
-
-
-
-"""

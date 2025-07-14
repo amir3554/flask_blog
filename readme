@@ -1,0 +1,39 @@
+This project is about a platform where the users can read articles from it with Stripe Subscription System.
+
+You can navigate between the pages and search for the article that caught your attention   whether it's the picture or the title , the user may read a little but to continue reading; the user must to subscribe ( 10$ monthly or 100$ yearly ) 
+
+That was the first time i learn about how to build an application with subscription system by stripe , Which takes care of the operations for the developer without the need to delve into the financial and accounting details.
+
+And also i have learned about login , logout system in flask (flask_login) and dealing with sessions, resetting password with a secure way , by sending an email template using (flask_mail) module to the email the has been written in the reset password page , with a unique url by ( itsdangerous.url_safe --> URLSafeSerializer) and methods like 
+
+get_reset_pwd_token(self)
+...
+
+@staticmethod
+def verify_reset_pwd_token(token : str) -> object | None :
+...
+
+The application is coordinated and decorated by css and javascript scripts (static files).
+
+That wasn't the first project using flask but i learned a lot more about it and how to use it properly: 
+
+How to deal with templates (jinja and html) (article, authentication, subscripe patial, and  main pages (base, home, 404, 403 and 405)) and ordering them.
+
+Models and databases (flask_sqlalchemy, flask_migrate)
+
+Forms (wtforms, flask_wtf) for checking data,
+
+flask_seeder for seeding data into the database to use it for testing the web 
+
+utils which have useful functions for the app 
+
+routes that connect the controllers with their url and controllers which have all the logical processing and operations 
+
+
+in summery if you want a website based on safe online subscription system and authentication system with beautiful arrangements and frontend formats I don't have any issues dealing with it.
+
+
+
+
+
+
